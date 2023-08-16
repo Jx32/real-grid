@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Grid - Minimal usage example</title>
+    <style>
+        canvas {
+            background-color: aliceblue;
+        }
+    </style>
+    <script type="module" src="js/minimal-usage.js"></script>
+</head>
+<body>
+    <div style="display: flex; flex-direction: row; gap: 10px; flex-flow: row;">
+        <div>
+            <label for="widthLbl">Width:</label>
+            <span id="widthLbl">?</span>
+        </div>
+        <div>
+            <label for="heightLbl">Height:</label>
+            <span id="heightLbl">?</span>
+        </div>
+    </div>
+    
+    <canvas id="canvas"></canvas>
+</body>
+</html>
