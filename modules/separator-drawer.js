@@ -13,6 +13,10 @@ export const drawSeparators = (ctx, width, height, distance, measureUnit, ppi, r
 
         console.log(totalSeparatorsX, width)
 
+        // Set the stroke color to red
+        ctx.strokeStyle = "red";
+        ctx.fillStyle = "red";
+
         // Draw horizontal separators
         let accumulatedX = distancePx;
         let accumulatedXOriginal = originalDistancePx;
@@ -28,5 +32,19 @@ export const drawSeparators = (ctx, width, height, distance, measureUnit, ppi, r
 
             accumulatedX += distancePx;
             accumulatedXOriginal += originalDistancePx;
+        }
+        // Draw vertical separators
+        let accumulatedY = distancePx;
+        let accumulatedYOriginal = originalDistancePx;
+        for (let index = 0; index <= totalSeparatorsY; index++) {
+            ctx.beginPath();
+            ctx.moveTo(0, accumulatedY);
+            ctx.lineTo(20, accumulatedY);
+            ctx.stroke();
+    
+            ctx.fillText(`${accumulatedYOriginal} ${measureUnit}`, 30, accumulatedY + 5);
+    
+            accumulatedY += distancePx;
+            accumulatedYOriginal += originalDistancePx;
         }
 };

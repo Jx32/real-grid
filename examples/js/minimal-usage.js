@@ -14,11 +14,11 @@ window.onload = () => {
     const options = {
         measureUnit: "in", // Measure unit will be Inches when rendering canvas
         canvasHtmlObject: canvasHtmlObject,
-        separationDistance: 9.5, // Indicates separator lines distance
+        separationDistance: 2.5, // Indicates separator lines distance
         addingImageCallbackFn: imageRenderingCallback,
         canvaLookOptions: {
             separator: {
-                lineWidth: 2,
+                lineWidth: 3,
                 strokeStyle: "black",
                 fillStyle: "black"
             }
