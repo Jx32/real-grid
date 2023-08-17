@@ -1,4 +1,5 @@
 import { MeasureUnit } from "./modules/enums.js";
+import { drawImages } from "./modules/image-drawer.js";
 import { drawSeparators } from "./modules/separator-drawer.js";
 
 export class GridImage {
@@ -12,9 +13,8 @@ export class RealGrid {
     context;
     measureUnit = MeasureUnit.INCHES;
     separationDistance = 0.0;
-    images = [];
+    files = [];
     ppi = 0;
-    resizeRatio = 0;
     
     addingImageCallbackFn; // Callback called every an image is rendered
 
@@ -45,7 +45,7 @@ export class RealGrid {
 
         this.context.lineWidth = canvaLookOptions.separator.lineWidth || 5;
         this.context.strokeStyle = canvaLookOptions.separator.strokeStyle || "#ff0000";
-        this.context.font = canvaLookOptions.separator.font || "16px Arial";
+        this.context.font = canvaLookOptions.separator.font || "14px Arial";
         this.context.fillStyle = canvaLookOptions.separator.fillStyle || "red";
     }
 
@@ -53,39 +53,27 @@ export class RealGrid {
         this.context.clearRect(0, 0, this.canvasHtmlObject.width, this.canvasHtmlObject.height);
     }
 
-    computeResizeRatio() {
-        const width = window.innerWidth;
-        
-        if (width < 768) {
-            // For smartphones
-            this.resizeRatio = 0.15;
-        } else if (width < 1024) {
-            // For Tablets
-            this.resizeRatio = 0.25;
-        } else {
-            // For desktop
-            this.resizeRatio = 0.5;
-        }
-
-        console.log('resize ratio', this.resizeRatio);
-    }
-
     refreshGrid() {
         this.clearGrid();
-        this.computeResizeRatio();
 
         const width = this.canvasHtmlObject.width;
         const height = this.canvasHtmlObject.height;
+        const images = this.files.map(file => file.image);
 
-        // Draw separators
+        drawImages(images, this.context, width, height);
+        
         drawSeparators(
             this.context, 
             width, 
             height, 
             this.separationDistance, 
             this.measureUnit,
-            this.ppi,
-            this.resizeRatio);
+            this.ppi);
+    }
+
+    drawImages(files = []) {
+        this.files = files;
+        this.refreshGrid();
     }
 
     /* Getter's and setter's */
