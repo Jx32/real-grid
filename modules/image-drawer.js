@@ -1,7 +1,9 @@
 import { MeasureUnit } from "./enums.js";
 import { convertUnitToPixels } from "./utils.js";
+let storedImages = []; 
 
 export const drawImages = (images = [], ctx, width, height) => {
+    storedImages = images; // Store the images array
     images.forEach(image => {
         const scale = 1;
         const x = 0;
@@ -12,5 +14,6 @@ export const drawImages = (images = [], ctx, width, height) => {
         const height = image.height * scale;
 
         ctx.drawImage(image, x, y, width, height);
+        return { image, x, y, width, height };
     });
 };

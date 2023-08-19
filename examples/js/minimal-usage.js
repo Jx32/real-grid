@@ -2,11 +2,12 @@ import { RealGrid } from "../../real-grid.js";
 
 let canvasHtmlObject;
 let realGrid;
+let storedImages = [];
 
 window.onload = () => {
     // Get the canvas object from DOM
     canvasHtmlObject = document.getElementsByTagName("canvas").item(0);
-
+    
     // Fire resizing event to adjust canvas
     resizeCanvas(canvasHtmlObject);
 
@@ -31,6 +32,24 @@ window.onload = () => {
 
     // Add listeners
     document.getElementById("image").addEventListener("change", onFileUpload);
+    document.getElementById("deleteImageBtn").addEventListener("click", () => {
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+    
+        // Clear the canvas 
+        realGrid.files.forEach(imageData => {
+            ctx.clearRect(imageData.x, imageData.y, imageData.width, imageData.height);
+        });
+        
+        //Clear the array
+        realGrid.files.length = 0;
+        if (realGrid.files.length === 0) {
+            document.getElementById("deleteImageBtn").style.display = "none"; // Hide the delete button
+        }
+        //redraw the grid
+        realGrid.refreshGrid();
+    });
+    
 }
 
 const resizeCanvas = canvas => {
@@ -48,6 +67,7 @@ const imageRenderingCallback = event => {}
 const onFileUpload = async event => {
     const files = await getFileArrayFromEvent(event.target.files);
     realGrid.drawImages(files);
+    document.getElementById("deleteImageBtn").style.display = "block"; // Show the delete button
 }
 
 const getFileArrayFromEvent = files => {
