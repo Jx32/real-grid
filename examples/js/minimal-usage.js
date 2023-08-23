@@ -69,6 +69,18 @@ const onFileUpload = async event => {
     realGrid.drawImages(files);
     document.getElementById("deleteImageBtn").style.display = "block"; // Show the delete button
 }
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let startY = 0;
+
+canvas.addEventListener("wheel", (event) => {
+    startY -= event.deltaY / 20; // Ajusta la velocidad de desplazamiento según sea necesario
+    startY = Math.min(startY, 0);
+    canvas.style.transform = `translateY(${startY}px)`;
+    //ctx.clearRect(0, 0, canvas.width, canvas.height);
+    realGrid.refreshGrid();
+});
+
 
 const getFileArrayFromEvent = files => {
     return new Promise((resolve, reject) => {

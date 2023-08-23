@@ -1,0 +1,9 @@
+.canvas_container{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+}
+#canvas {
+    transform: translateY(0); /* Inicialmente sin desplazamiento */
+    transition: transform 0.3s ease; /* Agrega una transición suave */
+}

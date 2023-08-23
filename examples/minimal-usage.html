@@ -13,9 +13,12 @@
         }
     </style>
     <script type="module" src="js/minimal-usage.js"></script>
+    <link rel="stylesheet" type="text/css" href="CSS/styles.css">
 </head>
+
 <body>
-    <div style="display: flex; flex-direction: row; gap: 10px; flex-flow: row;">
+
+    <div style="display: flex;margin: 0; flex-direction: row; gap: 10px; flex-flow: row;">
         <div>
             <label for="widthLbl">Width:</label>
             <span id="widthLbl">?</span>
@@ -24,13 +27,18 @@
             <label for="heightLbl">Height:</label>
             <span id="heightLbl">?</span>
         </div>
+
         <div>
             <label for="image">Upload image:</label>
             <input type="file" multiple name="image" id="image">
             <button id="deleteImageBtn" style="display: none;">X</button>
         </div>
     </div>
+    <div class="canvas_container">
+        <canvas id="canvas">
+        </canvas>
+    </div>
     
-    <canvas id="canvas"></canvas>
+
 </body>
 </html>
