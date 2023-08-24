@@ -18,6 +18,8 @@ export class RealGrid {
     
     addingImageCallbackFn; // Callback called every an image is rendered
 
+    inchInPixels = 0.0; // Indica cuantos pixeles = 1 inch
+
     /**
      * Initialize grid.
      * 
@@ -58,17 +60,19 @@ export class RealGrid {
 
         const width = this.canvasHtmlObject.width;
         const height = this.canvasHtmlObject.height;
-        const images = this.files.map(file => file.image);
 
-        drawImages(images, this.context, width, height);
+        const maxSeparators = Math.floor(25/this.separationDistance); // max. width (in) / separation distance (in)
+        const quantityToAcummulate = width / maxSeparators;
+        this.inchInPixels = quantityToAcummulate / this.separationDistance;
+
+        drawImages(this.files, this.context, width, height, this.inchInPixels);
         
-        drawSeparators(
+        this.inchInPixels = drawSeparators(
             this.context, 
-            width, 
-            height, 
             this.separationDistance, 
-            this.measureUnit,
-            this.ppi);
+            0,
+            quantityToAcummulate,
+            maxSeparators);
     }
 
     drawImages(files = []) {

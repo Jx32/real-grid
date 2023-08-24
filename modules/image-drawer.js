@@ -1,19 +1,60 @@
-import { MeasureUnit } from "./enums.js";
-import { convertUnitToPixels } from "./utils.js";
-let storedImages = []; 
+export const drawImages = (files = [], ctx, canvasWidth, height, inchInPixels = 0.0) => {
+    let actualX = 0, actualY = 0, maxY = 0;
 
-export const drawImages = (images = [], ctx, width, height) => {
-    storedImages = images; // Store the images array
-    images.forEach(image => {
-        const scale = 1;
-        const x = 0;
-        const y = 0;
-        const realWidth = convertUnitToPixels(image.width, MeasureUnit.INCHES, 96);
-        const realHeight = convertUnitToPixels(image.height, MeasureUnit.INCHES, 96);
-        const width = image.width * scale;
-        const height = image.height * scale;
+    if (files != null && files.length > 0) {
+        files.forEach(file => {
+            const image = file.image;
+            const scale = file.scale;
 
-        ctx.drawImage(image, x, y, width, height);
-        return { image, x, y, width, height };
-    });
+            const imageWidth = image.width * scale;
+            const imageHeight = image.height * scale;
+
+            ctx.drawImage(image, actualX, actualY, imageWidth, imageHeight);
+
+            const coordinates = nextCoordinates(actualX, actualY, canvasWidth, imageWidth, imageHeight, maxY);
+            actualX = coordinates.x;
+            actualY = coordinates.y;
+            maxY = coordinates.maxY;
+
+            // Calcula inches reales de la imagen
+            const horizontalInches = (imageWidth / inchInPixels).toFixed(2);
+            const verticalInches = (imageHeight / inchInPixels).toFixed(2);
+
+            file.widthInches = parseFloat(horizontalInches);
+            file.heightInches = parseFloat(verticalInches);
+
+            console.log(horizontalInches, verticalInches, file.name);
+        });
+    }
+
 };
+
+const nextCoordinates = (actualX = 0, actualY = 0, canvasWidth = 0, imageW, imageH, maxY) => {
+    const margin = 5;
+    const adjustedCanvasWidth = canvasWidth - 120;
+
+    let newX = actualX + margin + imageW;
+    let newY = actualY;
+    let newMaxY = maxY;
+
+    if (newX <= adjustedCanvasWidth) {
+        // Se mantiene en el mismo renglon porque cabe
+    } else if (actualX === 0 && newX > adjustedCanvasWidth) {
+        // Para dispositivos chicos, se pasa a nuevo renglon
+        newX = 0;
+        newY += imageH + margin;
+    } else if (newX > adjustedCanvasWidth) {
+        // Se pasa a nuevo renglon en x = 0
+        newX = 0;
+        newY += newMaxY + margin;
+    }
+
+    // Definir maxima altura, basado en la altura de imagen y Y actual
+    if ((imageH + newY) > maxY) newMaxY = (imageH + newY);
+
+    return {
+        x: newX,
+        y: newY,
+        maxY: newMaxY,
+    };
+}

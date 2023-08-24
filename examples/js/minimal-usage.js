@@ -55,7 +55,7 @@ window.onload = () => {
 const resizeCanvas = canvas => {
     // Update canva width/height taking window dimensions
     canvas.width = window.innerWidth - 20;
-    canvas.height = window.innerHeight - 150;
+    canvas.height = window.innerHeight + 1000;
 
     // Update on-screen metrics
     document.getElementById("widthLbl").innerText = canvas.width;
@@ -66,9 +66,14 @@ const imageRenderingCallback = event => {}
 
 const onFileUpload = async event => {
     const files = await getFileArrayFromEvent(event.target.files);
-    realGrid.drawImages(files);
-    document.getElementById("deleteImageBtn").style.display = "block"; // Show the delete button
+    
+    if (files != null && files.length > 0) {
+        realGrid.drawImages(files);
+        document.getElementById("deleteImageBtn").style.display = "block"; // Show the delete button
+    }
 }
+
+/*
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 let startY = 0;
@@ -80,7 +85,7 @@ canvas.addEventListener("wheel", (event) => {
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
     realGrid.refreshGrid();
 });
-
+*/
 
 const getFileArrayFromEvent = files => {
     return new Promise((resolve, reject) => {
@@ -95,9 +100,10 @@ const getFileArrayFromEvent = files => {
     
                 img.onload = () => {
                     file.image = img;
+                    file.scale = 0.5; // Define escala inicial
                     imagesArray.push(file);
 
-                    if (index === files.length) {
+                    if (imagesArray.length === files.length) {
                         resolve(imagesArray);
                     }
                 }
