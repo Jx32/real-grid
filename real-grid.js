@@ -40,7 +40,7 @@ export class RealGrid {
         this.context.clearRect(0, 0, this.canvasHtmlObject.width, this.canvasHtmlObject.height);
     }
 
-    refreshGrid() {
+    refreshGrid(showSeparators = true) {
         this.clearGrid();
 
         const width = this.canvasHtmlObject.width;
@@ -52,15 +52,34 @@ export class RealGrid {
 
         drawImages(this.files, this.context, width, height, this.inchInPixels);
         
-        this.inchInPixels = drawSeparators(
-            this.context, 
-            this.separationDistance,
-            quantityToAcummulate,
-            maxSeparators);
+        if (showSeparators) {
+            drawSeparators(
+                this.context, 
+                this.separationDistance,
+                quantityToAcummulate,
+                maxSeparators);
+        }
     }
 
     drawImages(files = []) {
         this.files = files;
         this.refreshGrid();
+    }
+
+    /* Funciones utilitarias */
+    setFileScale(uuid, scale = 0.0) {
+        let file = this.files.find(file => file.uuid === uuid);
+
+        if (file) {
+            file.scale = scale;
+        }
+    }
+
+    getFile(uuid) {
+        return this.files.find(file => file.uuid === uuid);
+    }
+
+    getFiles() {
+        return this.files;
     }
 }
