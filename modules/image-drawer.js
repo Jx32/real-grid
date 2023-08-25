@@ -22,8 +22,6 @@ export const drawImages = (files = [], ctx, canvasWidth, height, inchInPixels = 
 
             file.widthInches = parseFloat(horizontalInches);
             file.heightInches = parseFloat(verticalInches);
-
-            console.log(horizontalInches, verticalInches, file.name);
         });
     }
 

@@ -1,4 +1,4 @@
-export const drawSeparators = (ctx, distance, scrollY, quantityToAcummulate, maxSeparators) => {
+export const drawSeparators = (ctx, distance, quantityToAcummulate, maxSeparators) => {
     drawHorizontalSeparators(ctx, distance, maxSeparators, quantityToAcummulate);
     drawVerticalSeparators(ctx, quantityToAcummulate, distance);
 };

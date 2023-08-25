@@ -1,22 +1,12 @@
-import { MeasureUnit } from "./modules/enums.js";
 import { drawImages } from "./modules/image-drawer.js";
 import { drawSeparators } from "./modules/separator-drawer.js";
-
-export class GridImage {
-    file;
-    originalWidth;
-    originalHeight;
-}
 
 export class RealGrid {
     canvasHtmlObject;
     context;
-    measureUnit = MeasureUnit.INCHES;
     separationDistance = 0.0;
     files = [];
     ppi = 0;
-    
-    addingImageCallbackFn; // Callback called every an image is rendered
 
     inchInPixels = 0.0; // Indica cuantos pixeles = 1 inch
 
@@ -26,15 +16,10 @@ export class RealGrid {
      * @param {Object} options Real grid options
      */
     constructor(options) {
-        this.measureUnit = options.measureUnit;
         this.separationDistance = options.separationDistance;
         this.canvasHtmlObject = options.canvasHtmlObject;
         this.context = this.canvasHtmlObject.getContext("2d");
         this.ppi = options.ppi || 96;
-
-        if (options.addingImageCallbackFn) {
-            this.addingImageCallbackFn = options.addingImageCallbackFn;
-        }
 
         this.initializeCanvaLook(options.canvaLookOptions);
         this.refreshGrid();
@@ -69,8 +54,7 @@ export class RealGrid {
         
         this.inchInPixels = drawSeparators(
             this.context, 
-            this.separationDistance, 
-            0,
+            this.separationDistance,
             quantityToAcummulate,
             maxSeparators);
     }
@@ -78,10 +62,5 @@ export class RealGrid {
     drawImages(files = []) {
         this.files = files;
         this.refreshGrid();
-    }
-
-    /* Getter's and setter's */
-    getImages() {
-        return this.images;
     }
 }
