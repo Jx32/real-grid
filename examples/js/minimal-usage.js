@@ -84,6 +84,8 @@ const getFileArrayFromEvent = files => {
                 img.onload = () => {
                     file.image = img;
                     file.scale = 0.5; // Define escala inicial
+                    file.uuid = Math.floor(Math.random() * (10000 - 1 + 1)) + 1; // Define uuid
+
                     imagesArray.push(file);
 
                     if (imagesArray.length === files.length) {
