@@ -10,6 +10,13 @@ export class RealGrid {
 
     inchInPixels = 0.0; // Indica cuantos pixeles = 1 inch
 
+    canvaInfo = {
+        actualCanvaHeight: 0,
+        actualCanvaWidth: 0
+    }
+
+    canvaLookOptions;
+
     /**
      * Initialize grid.
      * 
@@ -20,20 +27,16 @@ export class RealGrid {
         this.canvasHtmlObject = options.canvasHtmlObject;
         this.context = this.canvasHtmlObject.getContext("2d");
         this.ppi = options.ppi || 96;
+        this.canvaLookOptions = options.canvaLookOptions || {separator: {}};
 
-        this.initializeCanvaLook(options.canvaLookOptions);
         this.refreshGrid();
     }
 
-    initializeCanvaLook(canvaLookOptions) {
-        if (!canvaLookOptions) {
-            canvaLookOptions = {separator: {}};
-        }
-
-        this.context.lineWidth = canvaLookOptions.separator.lineWidth || 5;
-        this.context.strokeStyle = canvaLookOptions.separator.strokeStyle || "#ff0000";
-        this.context.font = canvaLookOptions.separator.font || "14px Arial";
-        this.context.fillStyle = canvaLookOptions.separator.fillStyle || "red";
+    initializeCanvaLook() {
+        this.context.lineWidth = this.canvaLookOptions.separator.lineWidth || 5;
+        this.context.strokeStyle = this.canvaLookOptions.separator.strokeStyle || "#ff0000";
+        this.context.font = this.canvaLookOptions.separator.font || "14px Arial";
+        this.context.fillStyle = this.canvaLookOptions.separator.fillStyle || "red";
     }
 
     clearGrid() {
@@ -42,6 +45,7 @@ export class RealGrid {
 
     refreshGrid(showSeparators = true) {
         this.clearGrid();
+        this.initializeCanvaLook();
 
         const width = this.canvasHtmlObject.width;
         const height = this.canvasHtmlObject.height;
@@ -50,7 +54,7 @@ export class RealGrid {
         const quantityToAcummulate = width / maxSeparators;
         this.inchInPixels = quantityToAcummulate / this.separationDistance;
 
-        drawImages(this.files, this.context, width, height, this.inchInPixels);
+        this.canvaInfo = drawImages(this.files, this.context, width, height, this.inchInPixels);
         
         if (showSeparators) {
             drawSeparators(
@@ -66,19 +70,7 @@ export class RealGrid {
         this.refreshGrid();
     }
 
-    /* Funciones utilitarias */
-    setFileScale(uuid, scale = 0.0) {
-        let file = this.files.find(file => file.uuid === uuid);
-
-        if (file) {
-            file.scale = scale;
-        }
-    }
-
-    getFile(uuid) {
-        return this.files.find(file => file.uuid === uuid);
-    }
-
+    /* Getter's and Setter's */
     getFiles() {
         return this.files;
     }

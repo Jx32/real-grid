@@ -4,7 +4,6 @@ export const drawSeparators = (ctx, distance, quantityToAcummulate, maxSeparator
 };
 
 const drawHorizontalSeparators = (ctx, distance, maxSeparators, quantityToAcummulate) => {
-    // Draw horizontal separators
     let accumulated = quantityToAcummulate;
     let accumulatedOriginal = distance;
 
@@ -22,7 +21,6 @@ const drawHorizontalSeparators = (ctx, distance, maxSeparators, quantityToAcummu
 }
 
 const drawVerticalSeparators = (ctx, quantityToAcummulate, distance, maxSeparators = 100) => {
-    // Draw horizontal separators
     let accumulated = quantityToAcummulate;
     let accumulatedOriginal = distance;
 
